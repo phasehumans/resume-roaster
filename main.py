@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import io
 import os
 import PyPDF2
-
+import google.generativeai as genai
 
 load_dotenv()
 
@@ -33,4 +33,22 @@ def extract_text(uploaded_file):
         return uploaded_file.read().decode("utf-8")
 
 if analyze and uploaded_file:
-    pass
+    try:
+        file_content= extract_text(uploaded_file)
+
+        if not file_content.strip():
+            st.error("file does not have any content")
+            st.stop()
+
+        prompt= f""" pass """
+        
+        model= genai.GenerativeModel("models/gemini-1.5-flash")
+        response= model.generate_content(prompt)
+
+        st.markdown("## Analysis Result")
+        st.markdown(response.text)
+
+    except Exception as e:
+        st.error(f"An error occured")
+
+
