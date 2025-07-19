@@ -8,11 +8,15 @@ import google.generativeai as genai
 
 load_dotenv()
 
-st.title("AI Resume Roaster")
-st.badge("Chaitanya Sonawane")
+st.title("Resume Roster")
+st.badge("ai resume roaster")
 
-uploaded_file= st.file_uploader("Upload your resume her (PDF & txt)" , type=['pdf', 'txt'])
-st.text_input("Enter the job role that you are targeting")
+GEMINI_API_KEY= os.getenv("GEMINI_API_KEY")
+genai.configure(api_key= GEMINI_API_KEY)
+
+
+uploaded_file= st.file_uploader("Upload your resume here (PDF & txt)" , type=['pdf', 'txt'])
+job_role= st.text_input("Enter the job role that you are targeting")
 
 analyze= st.button("Analyze Resume")
 # print(analyze) --> T/F
@@ -40,8 +44,23 @@ if analyze and uploaded_file:
             st.error("file does not have any content")
             st.stop()
 
-        prompt= f""" pass """
-        
+        prompt= f"""
+
+You are a brutally honest, no non-sense HR expert who's been reviewing resume for decades
+Roast this resume like you are on a comedy stage but still give some useful insights feedback.
+
+Don't hold back- be sarcastic, witty and critical where need.
+
+What would make this resume actually land a job in {job_role} for a good company.
+
+here is the resume, go wild:
+
+{file_content}
+
+Make it sting and make sure to keep it in 150 words.
+
+"""
+
         model= genai.GenerativeModel("models/gemini-1.5-flash")
         response= model.generate_content(prompt)
 
