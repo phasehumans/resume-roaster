@@ -5,18 +5,24 @@ import io
 import os
 import PyPDF2
 import google.generativeai as genai
+import time
 
 load_dotenv()
 
-st.title("Resume Roster")
-st.badge("ai resume roaster")
+st.title("Resume Roaster")
+# st.badge("ai resume roaster")
+st.badge("ai resume roaster", icon=":material/star:", color="green")
 
 GEMINI_API_KEY= os.getenv("GEMINI_API_KEY")
 genai.configure(api_key= GEMINI_API_KEY)
 
 
-uploaded_file= st.file_uploader("Upload your resume here (PDF & txt)" , type=['pdf', 'txt'])
-job_role= st.text_input("Enter the job role that you are targeting")
+uploaded_file= st.file_uploader("Upload your resume here (.pdf or .txt)" , type=['pdf', 'txt'])
+# job_role= st.text_input("Enter the job role that you are targeting")
+
+options = ["Web Developer", "App Developer", "Data Scientist", "AI Engineer", "UI Designer"]
+job_role = st.pills("Job Roles: ", options, selection_mode="multi")
+st.markdown(f"Your selected options: {job_role}.")
 
 analyze= st.button("Analyze Resume")
 # print(analyze) --> T/F
@@ -57,15 +63,25 @@ here is the resume, go wild:
 
 {file_content}
 
-Make it sting and make sure to keep it in 150 words.
+Make it sting and make sure to keep it in 150 words. Answer everything in Hinglish
 
 """
 
         model= genai.GenerativeModel("models/gemini-1.5-flash")
         response= model.generate_content(prompt)
 
-        st.markdown("## Analysis Result")
-        st.markdown(response.text)
+        # st.markdown("## Analysis Result")
+        # st.markdown(response.text)
+
+        placeholder = st.empty()
+        placeholder.progress(0, "Wait for it...")
+        time.sleep(1)
+        placeholder.progress(50, "Wait for it...")
+        time.sleep(1)
+        placeholder.progress(100, "Wait for it...")
+        time.sleep(1)
+
+        placeholder.markdown(response.text)
 
     except Exception as e:
         st.error(f"An error occured")
