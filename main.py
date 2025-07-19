@@ -24,7 +24,7 @@ options = ["Web Developer", "App Developer", "Data Scientist", "AI Engineer", "U
 job_role = st.pills("Job Roles: ", options, selection_mode="multi")
 st.markdown(f"Your selected options: {job_role}.")
 
-analyze= st.button("Analyze Resume")
+analyze= st.button("Analyze Resume", type= "primary")
 # print(analyze) --> T/F
 
 
