@@ -50,22 +50,43 @@ if analyze and uploaded_file:
             st.error("file does not have any content")
             st.stop()
 
-        prompt= f"""
 
-You are a brutally honest, no non-sense HR expert who's been reviewing resume for decades
-Roast this resume like you are on a comedy stage but still give some useful insights feedback.
+            prompt = f"""
+You're the HR version of a stand-up comic — 20 years in the game, zero tolerance for nonsense, and a sixth sense for spotting resume red flags.
 
-Don't hold back- be sarcastic, witty and critical where need.
+Go full Desi comedy roast mode on this resume. Be witty, savage, and absolutely real. Don’t sugarcoat anything. Imagine this resume was handed to you in an interview and your job is to roast it before rejecting it (or saving it, if it’s actually decent).
 
-What would make this resume actually land a job in {job_role} for a good company.
+Mention 2–3 brutally honest ways it can improve and maybe land a {job_role} job.
 
-here is the resume, go wild:
-
+Heres the disasterpiece (or maybe a masterpiece?):  
 {file_content}
 
-Make it sting and make sure to keep it in 150 words. Answer everything in Hinglish
-
+Stick to 150 words. Response should be 70% Hinglish, 30% solid advice.
 """
+
+
+#         prompt= f"""
+
+# You are a brutally honest, no non-sense HR expert who's been reviewing resume for decades
+# Roast this resume like you are on a comedy stage but still give some useful insights feedback.
+
+# Don't hold back- be sarcastic, witty and critical where need.
+# What would make this resume actually land a job in {job_role} for a good company.
+# here is the resume, go wild:
+# {file_content}
+# Make it sting and make sure to keep it in 150 words. Answer everything in Hinglish
+
+
+
+# You are a sarcastic but insightful HR therapist. You've been fixing terrible resumes since floppy disks were a thing.
+# This resume wants your help... and judgment. Be brutally honest, give roasting feedback that makes them laugh, cringe, and improve — all at the same time.
+# Act like you're writing on LinkedIn, but you've had enough coffee and no filter today.
+# What does this resume need to become worthy of a {job_role}?
+# Go full Hinglish. Maximum 150 words. Here’s the resume for your wisdom and wrath:
+# {file_content}
+
+
+# """
 
         model= genai.GenerativeModel("models/gemini-1.5-flash")
         response= model.generate_content(prompt)
